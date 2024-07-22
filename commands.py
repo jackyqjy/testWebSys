@@ -1,4 +1,4 @@
-from models.user import PermissionEnum, RoleModel, PermissionModel
+from models.user import PermissionEnum, RoleModel, PermissionModel, UserModel
 import click
 from exts import db
 
@@ -28,4 +28,27 @@ def create_role():
     
     db.session.add_all([inspector, operator, administrator])
     db.session.commit()
-    click.echo("角色添加成功！")        
+    click.echo("角色添加成功！")
+
+def create_test_user():
+    admin_role = RoleModel.query.filter_by(name="管理员").first()
+    zhangsan = UserModel(username="张三", email="zhangsan@70mai.com", password="123456", is_staff=True, role=admin_role)
+    operator_role = RoleModel.query.filter_by(name="运营").first()
+    lisi = UserModel(username="李四", email="lisi@70mai.com", password="123456", is_staff=True, role=operator_role)
+    inspect_role = RoleModel.query.filter_by(name="稽查").first()
+    wangwu = UserModel(username="王五", email="wangwu@70mai.com", password="123456", is_staff=True, role=inspect_role)
+
+    db.session.add_all([zhangsan, lisi, wangwu])
+    db.session.commit()
+    click.echo("测试用户添加成功！")
+
+@click.option("--username", '-u')
+@click.option("--email", '-e')
+@click.option("--password", '-p')
+def create_admin(username, email, password):
+    admin_role = RoleModel.query.filter_by(name="管理员").first()
+    admin_user = UserModel(username=username, email=email, password=password, is_staff=True, role=admin_role)
+    db.session.add(admin_user)
+    db.session.commit()
+    click.echo("管理员添加成功！")
+

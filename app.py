@@ -17,9 +17,10 @@ app.register_blueprint(user_bp)
 
 migrate = Migrate(app, db)
 
-#app.cli.commands("create-permission")(commands.create_permission)
-#app.cli.commands("create-role")(commands.create_role)
-
+app.cli.command("create-permission")(commands.create_permission)
+app.cli.command("create-role")(commands.create_role)
+app.cli.command("create-test-role")(commands.create_test_user)
+app.cli.command("create-admin")(commands.create_admin)
 
 
 
