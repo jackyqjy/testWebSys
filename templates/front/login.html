@@ -1,0 +1,15 @@
+{% extends 'front/base.html' %}
+
+{% block title %}
+login
+{% endblock %}
+
+{% block body %}
+<form action="{{url_for('user.login')}}" method="post">
+    <input type="hidden", name="csrf_token" value="{{csrf_token()}}">
+</form>
+
+<div class="form-group">
+    <button class="btn btn-warning btn-block" id="submit-btn">立即登录</button>
+</div>
+{% endblock %}
